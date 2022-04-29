@@ -6,12 +6,12 @@ const Login = () => {
     return (
       <div className="container mx-auto">
         <section class="h-screen">
-          <div class="px-6 h-full text-gray-800">
+          <div class="px-6 h-full text-gray-800 shadow-2xl">
             <div class="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6">
               <div class="grow-0 shrink-1 md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-9/12 mb-12 md:mb-0">
                 <img src={login} alt="Sample image" />
               </div>
-              <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
+              <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0 ">
                 <form>
                   {/* <!-- Email input --> */}
                   <div class="mb-6">
@@ -65,9 +65,9 @@ const Login = () => {
                       Don't have an account?
                       <Link
                         to="/registration"
-                        class="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
+                        class="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out ml-4"
                       >
-                        Register
+                        Registration
                       </Link>
                     </p>
                   </div>
