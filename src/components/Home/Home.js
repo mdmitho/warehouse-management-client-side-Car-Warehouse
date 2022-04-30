@@ -1,12 +1,13 @@
 import React from 'react';
-import Navbar from '../Nabvar/Navbar';
 import Slider from '../Slider/Slider';
 
 const Home = () => {
+    
     return (
-        <div>
-           <Slider></Slider>
-        </div>
+      <div>
+        <Slider></Slider>
+        <h1 className="mt-6 text-3xl font-bold text-sky-500">My Item</h1>
+      </div>
     );
 };
 

@@ -38,21 +38,21 @@ const Slider = () => {
               <img src={slider1} class="block w-full" alt="..." />
               <div class="carousel-caption hidden md:block absolute text-center">
                 <h5 class="text-2xl">Best Car For You</h5>
-                <p>Some representative placeholder content for the first slide.</p>
+                <p></p>
               </div>
             </div>
             <div class="carousel-item relative float-left w-full">
               <img src={slider2} class="block w-full" alt="..." />
               <div class="carousel-caption hidden md:block absolute text-center">
                 <h5 class="text-2xl">Best Car For You</h5>
-                <p>Some representative placeholder content for the second slide.</p>
+                <p></p>
               </div>
             </div>
             <div class="carousel-item relative float-left w-full">
               <img src={slider3} class="block w-full" alt="..." />
               <div class="carousel-caption hidden md:block absolute text-center">
                 <h5 class="text-2xl">Best Car For You</h5>
-                <p>Some representative placeholder content for the third slide.</p>
+                <p></p>
               </div>
             </div>
           </div>
