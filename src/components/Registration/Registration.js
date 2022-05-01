@@ -1,9 +1,94 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import login from '../../img/login.png'
 import googleLogo from '../../img/google logo.png'
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import auth from '../../Firebase/Firebase.init';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Registration = () => {
+  const [signInWithGoogle, googleUser, loading2, googleError] = useSignInWithGoogle(auth, {
+    sendEmailVerification: true,
+  });
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    password: "",
+    confirmPass: "",
+  });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [createUserWithEmailAndPassword, user, loading, hookError] =
+    useCreateUserWithEmailAndPassword(auth,{ sendEmailVerification: true });
+
+
+    const handleEmailChange =(event)=>{
+      const emailCheck = /\S+@\S+\.\S+/;
+      const validEmail = emailCheck.test(event.target.value);
+      if (validEmail) {
+        setUserInfo({ ...userInfo, email: event.target.value });
+        setErrors({ ...errors, email: "" });
+      } else {
+        setErrors({ ...errors, email: "Invalid email" });
+        setUserInfo({ ...userInfo, email: "" });
+      }
+    }
+
+    const handlePasswordChange =(event)=>{
+      const passwordCheck = /.{6,}/;
+      const validPassword = passwordCheck.test(event.target.value);
+      if (validPassword) {
+        setUserInfo({ ...userInfo, password: event.target.value });
+        setErrors({ ...errors, password: "" });
+      } else {
+        setErrors({ ...errors, password: "Minimum 6 characters!" });
+        setUserInfo({ ...userInfo, password: "" });
+      }
+    }
+
+    const handleConfirmPassword = (event) => {
+      if (event.target.value === userInfo.password) {
+        setUserInfo({ ...userInfo, confirmPass: event.target.value });
+        setErrors({ ...errors, password: "" });
+      } else {
+        setErrors({ ...errors, password: "Password's don't match" });
+        setUserInfo({ ...userInfo, confirmPass: "" });
+      }
+    };
+    const handleLogin = (event) => {
+      event.preventDefault();
+      createUserWithEmailAndPassword(userInfo.email, userInfo.password);
+    };
+
+    useEffect(() => {
+      const error = hookError;
+      if (error) {
+        switch (error?.code) {
+          case "auth/invalid-email":
+            toast.error("Invalid email, please provide a valid email");
+            break;
+
+          case "auth/invalid-password":
+            toast.error("Wrong password!!");
+            break;
+          default:
+            error("something went wrong!!");
+        }
+      }
+    }, [hookError]);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+    
+    useEffect(() => {
+      if (user || googleUser) {
+        navigate(from);
+      }
+    }, [user]);
+
     return (
       <div className="container mx-auto mt-5 mb-10 ">
         <section class="h-screen">
@@ -13,7 +98,7 @@ const Registration = () => {
                 <img src={login} alt="Sample image" />
               </div>
               <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0 shadow-2xl p-10 ">
-                <form>
+                <form onSubmit={handleLogin}>
                   {/* <!-- Email input --> */}
                   <div class="mb-6">
                     <input
@@ -21,7 +106,6 @@ const Registration = () => {
                       class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       id="exampleFormControlInput2"
                       placeholder="Your Name"
-                      required
                     />
                   </div>
                   <div class="mb-6">
@@ -32,6 +116,7 @@ const Registration = () => {
                       "
                       id="exampleFormControlInput2"
                       placeholder="Your Email"
+                      onChange={handleEmailChange}
                       required
                     />
                     {/* <p class="mt-2  peer-invalid:visible text-pink-600 text-sm">
@@ -46,7 +131,10 @@ const Registration = () => {
                       class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       id="exampleFormControlInput2"
                       placeholder="Password"
+                      onChange={handlePasswordChange}
+                      required
                     />
+                    {errors?.password && <p className="text-danger mt-2">{errors.password}</p>}
                   </div>
                   <div class="mb-6">
                     <input
@@ -54,7 +142,10 @@ const Registration = () => {
                       class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       id="exampleFormControlInput2"
                       placeholder="Conform Password"
+                      onChange={handleConfirmPassword}
+                      required
                     />
+                    {errors?.password && <p className="text-danger mt-2">{errors.password}</p>}
                   </div>
 
                   <div class="flex justify-between items-center mb-6">
@@ -101,6 +192,7 @@ const Registration = () => {
                     <p class="text-lg mb-0 mr-4">Sign in with</p>
 
                     <button
+                    onClick={() => signInWithGoogle()}
                       type="button"
                       data-mdb-ripple="true"
                       data-mdb-ripple-color="light"
@@ -108,6 +200,7 @@ const Registration = () => {
                     >
                       {/* <!-- Linkedin --> */}
                       <img src={googleLogo} alt="" />
+                      
                     </button>
                   </div>
                 </form>

@@ -1,8 +1,72 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import login from '../../img/login.png'
 import googleLogo from '../../img/google logo.png'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import auth from "../../Firebase/Firebase.init";
+import {
+  useSendPasswordResetEmail,
+  useSignInWithEmailAndPassword,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
+import toast, { Toaster } from 'react-hot-toast';
+import { sendPasswordResetEmail } from 'firebase/auth';
+
+
+
 const Login = () => {
+  const [signInWithGoogle, googleUser, loading2, googleError] = useSignInWithGoogle(auth);
+  const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
+  const emailRef = useRef('')
+  const passwordRef = useRef("");
+  const navigate = useNavigate()
+const location = useLocation();
+let from = location.state?.from?.pathname || "/";
+  const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(
+    auth);
+
+    const handleLogin = event =>{
+      event.preventDefault();
+      const email = emailRef.current.value;
+      const password = passwordRef.current.value;
+      console.log(email, password);
+      signInWithEmailAndPassword(email, password);
+      emailRef.current.value = "";
+      passwordRef.current.value = "";
+    }
+
+    if (user || googleUser) {
+      navigate(from, { replace: true });
+      toast.success("Successfully Login!");
+    }
+  
+    const resetPassword =async ()=>{
+      const email = emailRef.current.value
+    if(email){
+      await sendPasswordResetEmail(email);
+      toast('Sent email');
+    }
+    else{
+      toast('please enter your email')
+    }
+    }
+  
+  
+    useEffect(() => {
+      if (error) {
+        switch (error?.code) {
+          case "auth/invalid-email":
+            toast.error("Invalid email provided, please provide a valid email");
+            break;
+
+          case "auth/invalid-password":
+            toast.error("Wrong password. Intruder!!");
+            break;
+          default:
+            toast.error("something went wrong");
+        }
+      }
+    }, [error]);
+
     return (
       <div className="container mx-auto">
         <section class="h-screen">
@@ -12,24 +76,28 @@ const Login = () => {
                 <img src={login} alt="Sample image" />
               </div>
               <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0 shadow-2xl p-10">
-                <form>
+                <form onSubmit={handleLogin}>
                   {/* <!-- Email input --> */}
                   <div class="mb-6 ">
                     <input
-                      type="text"
-                      class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                      type="email"
+                      ref={emailRef}
+                      class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none "
                       id="exampleFormControlInput2"
                       placeholder="Email address"
+                      required
                     />
                   </div>
 
                   {/* <!-- Password input --> */}
                   <div class="mb-6">
                     <input
+                      ref={passwordRef}
                       type="password"
                       class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                       id="exampleFormControlInput2"
                       placeholder="Password"
+                      required
                     />
                   </div>
 
@@ -47,7 +115,7 @@ const Login = () => {
                         Remember me
                       </label>
                     </div>
-                    <a href="#!" class="text-red-600">
+                    <a href="#!" onClick={resetPassword} class="text-red-600">
                       Forgot password?
                     </a>
                   </div>
@@ -80,6 +148,7 @@ const Login = () => {
                     <p class="text-lg mb-0 mr-4">Sign in with</p>
 
                     <button
+                      onClick={() => signInWithGoogle()}
                       type="button"
                       data-mdb-ripple="true"
                       data-mdb-ripple-color="light"
