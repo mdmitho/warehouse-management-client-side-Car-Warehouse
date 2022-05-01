@@ -12,7 +12,7 @@ const Navbar = () => {
           <div className="container-fluid px-5">
             <img className="w-12" src={logo} alt="" />
             <Link className="navbar-brand ml-5" to="/">
-              Navbar
+              Car Warehouse
             </Link>
 
             <button
