@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Blogs from './components/Blogs/Blogs';
+import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login'
 import MyItem from './components/My-Item/MyItem';
@@ -32,6 +33,7 @@ function App() {
         <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
       <Toaster />
+      <Footer></Footer>
     </div>
   );
 }
