@@ -15,6 +15,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 
 const Login = () => {
   const [signInWithGoogle, googleUser, loading2, googleError] = useSignInWithGoogle(auth);
+  console.log(googleUser);
   const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
   const emailRef = useRef('')
   const passwordRef = useRef("");

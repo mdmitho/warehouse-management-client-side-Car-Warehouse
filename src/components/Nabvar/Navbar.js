@@ -46,6 +46,11 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
+                  <Link className="nav-link active font-bold" to="/inventory">
+                    Inventory
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <Link className="nav-link active font-bold" to="/myitem">
                     My Item
                   </Link>

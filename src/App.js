@@ -5,6 +5,7 @@ import './App.css';
 import Blogs from './components/Blogs/Blogs';
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
+import Inventory from './components/Inventory/Inventory';
 import Login from './components/Login/Login'
 import MyItem from './components/My-Item/MyItem';
 import Navbar from './components/Nabvar/Navbar';
@@ -25,6 +26,14 @@ function App() {
           element={
             <RequireAuth>
               <MyItem></MyItem>
+            </RequireAuth>
+          }
+        ></Route>
+        <Route
+          path="/inventory"
+          element={
+            <RequireAuth>
+              <Inventory></Inventory>
             </RequireAuth>
           }
         ></Route>

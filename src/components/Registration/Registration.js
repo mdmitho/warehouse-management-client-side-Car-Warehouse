@@ -85,7 +85,8 @@ const Registration = () => {
     
     useEffect(() => {
       if (user || googleUser) {
-        navigate(from);
+        navigate(from, { replace: true });
+        toast.success("Successfully Login!");
       }
     }, [user]);
 
