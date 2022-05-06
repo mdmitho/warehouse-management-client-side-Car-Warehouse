@@ -13,8 +13,8 @@ const Navbar = () => {
   }
  
     return (
-      <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className=' '>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light ">
           <div className="container-fluid px-5">
             <img className="w-12" src={logo} alt="" />
             <Link className="navbar-brand ml-5 font-bold" to="/">
@@ -53,6 +53,11 @@ const Navbar = () => {
                 <li className="nav-item">
                   <Link className="nav-link active font-bold" to="/myitem">
                     My Item
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link active font-bold" to="/additem">
+                    Add Item
                   </Link>
                 </li>
 
