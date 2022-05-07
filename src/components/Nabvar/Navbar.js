@@ -51,10 +51,11 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link active font-bold" to="/myitem">
-                    My Item
+                  <Link className="nav-link active font-bold" to="/contact">
+                   Contact
                   </Link>
                 </li>
+          
                 <li className="nav-item">
                   <Link className="nav-link active font-bold" to="/additem">
                     Add Item
@@ -66,6 +67,8 @@ const Navbar = () => {
                     Blogs
                   </Link>
                 </li>
+
+               
               </ul>
               <form className="d-flex">
                 {user ? (

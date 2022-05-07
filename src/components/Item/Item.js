@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Item = (props) => {
     console.log(props);
 
-    const {img,name, description,supplier_name,price,quantity} = props.item
+    const {img,name, description,supplier_name,price,quantity,} = props.item
 
     return (
       <div>
@@ -19,12 +20,17 @@ const Item = (props) => {
 
               <p class="text-gray-700 text-base mb-3 text-left mt-3">{description}</p>
               <h1 className="mb-3 text-left">Supplier Name : {supplier_name}</h1>
-              <button
-                type="button"
-                class=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out "
+              <Link
+                to="/update/${_id}
+"
               >
-                Update
-              </button>
+                <button
+                  type="button"
+                  class=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out "
+                >
+                  Update
+                </button>
+              </Link>
             </div>
           </div>
         </div>
