@@ -10,7 +10,7 @@ import {
 } from "react-firebase-hooks/auth";
 import toast, { Toaster } from 'react-hot-toast';
 import { sendPasswordResetEmail } from 'firebase/auth';
-
+import axios from "axios";
 
 
 const Login = () => {
@@ -29,8 +29,8 @@ let from = location.state?.from?.pathname || "/";
       event.preventDefault();
       const email = emailRef.current.value;
       const password = passwordRef.current.value;
-      console.log(email, password);
       signInWithEmailAndPassword(email, password);
+      // const {data} = await axios.post('http://localhost:4000/login',{email})
       emailRef.current.value = "";
       passwordRef.current.value = "";
     }

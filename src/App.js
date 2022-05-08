@@ -11,10 +11,11 @@ import Inventory from './components/Inventory/Inventory';
 import Login from './components/Login/Login'
 import MyItem from './components/My-Item/MyItem';
 import Navbar from './components/Nabvar/Navbar';
-import Update from './components/Nabvar/Update/Update';
+
 import NotFound from './components/NotFound/NotFound';
 import Registration from './components/Registration/Registration';
 import RequireAuth from './components/RequireAuth/RequireAuth';
+import Update from './components/Update/Update';
 
 function App() {
   return (
